@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import css from './NoteForm.module.css';
 
 import { createNote } from '../../services/noteService';
-
+import type { NoteTag } from '../../types/note';
 interface NoteFormProps {
   onClose: () => void;
 }
@@ -56,8 +56,11 @@ export default function NoteForm({
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        mutation.mutate(values);
-      }}
+        mutation.mutate({
+  ...values,
+  tag: values.tag as NoteTag,
+        });
+        }}
     >
       <Form className={css.form}>
         <div className={css.formGroup}>
